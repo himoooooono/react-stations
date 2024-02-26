@@ -1,24 +1,24 @@
 // @ts-check
-import { useState, useEffect } from 'react'
+import { useState} from 'react'
+import DogImage from './DogImage'
 
 export const Description = () => {
   const [dogUrl, setDogUrl] = useState('https://dog.ceo/api/breeds/image/random')
-
-  const fetchDogUrl = async () => {
-    const response = await fetch('https://dog.ceo/api/breeds/image/random')
-    const data = await response.json()
-    setDogUrl(data.message)
-  }
-
-  useEffect(() => {
-    fetchDogUrl()
-  }, [])
 
   return(
     <div>
         <p>ひもののサイトです</p>
         <img src={dogUrl} alt="Dog Image"></img>
-        <button onClick={fetchDogUrl}>更新</button>
+        <DogImage imageUrl={dogUrl} /><br />
+        <button onClick={
+          () => {
+            fetch('https://dog.ceo/api/breeds/image/random')
+              .then((res) => res.json())
+              .then((data) => {
+                setDogUrl(data.message)
+              })
+          }
+        }>更新</button>
     </div>
   )
 }
